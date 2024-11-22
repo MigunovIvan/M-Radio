@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0821ab6-9dac-4184-8950-1993c3056e92" name="Changes" comment="Ivan Migunov">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="d0821ab6-9dac-4184-8950-1993c3056e92" name="Changes" comment="Ivan Migunov" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -84,7 +82,7 @@
       <workItem from="1732199634107" duration="225000" />
       <workItem from="1732199878939" duration="55000" />
       <workItem from="1732256378967" duration="967000" />
-      <workItem from="1732257398014" duration="7510000" />
+      <workItem from="1732257398014" duration="7868000" />
     </task>
     <task id="LOCAL-00001" summary="Ivan Migunov">
       <option name="closed" value="true" />
@@ -94,7 +92,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732265227860</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Ivan Migunov">
+      <option name="closed" value="true" />
+      <created>1732267735874</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1732267735874</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -105,6 +111,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Ivan Migunov" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Play$Radio_M.coverage" NAME="Radio-M Coverage Results" MODIFIED="1732264416562" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Play$Radio_M.coverage" NAME="Radio-M Coverage Results" MODIFIED="1732267549010" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
