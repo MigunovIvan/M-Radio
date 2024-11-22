@@ -5,7 +5,7 @@ a = Analysis(
     ['Radio-M.py'],
     pathex=[],
     binaries=[],
-    datas=[('WL.jpg', '.')],
+    datas=[('WL.jpg', '.'), ('R.ico', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -35,5 +35,4 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['R.ico'],
 )
