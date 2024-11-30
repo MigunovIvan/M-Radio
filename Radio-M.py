@@ -19,9 +19,11 @@ ACTIVE_COLOR = (0, 255, 0)  # Цвет текста кнопки при акти
 RADIO_URL = "https://cast2.my-control-panel.com/proxy/vladas/stream"
 
 # Иконка для окна
-ICON_PATH = "R.ico"  # Иконка для окна
+ICON_PATH = "R.ico"  # Иконка для окна (поменяйте на нужный путь к .ico файлу)
 if hasattr(sys, "_MEIPASS"):  # Если запущено из PyInstaller
     ICON_PATH = os.path.join(sys._MEIPASS, ICON_PATH)
+
+# Установка иконки для окна
 pygame.display.set_icon(pygame.image.load(ICON_PATH))
 
 # Загрузка фона
@@ -67,7 +69,6 @@ class Button:
         self.is_active = False
 
     def draw(self, surface):
-        # Подсветка текста
         if self.rect.collidepoint(pygame.mouse.get_pos()):
             color = self.hover_color
             text_color = self.active_color
@@ -75,19 +76,12 @@ class Button:
             color = self.color
             text_color = self.text_color
 
-        # Отрисовка кнопки (скругленные углы без рамки)
         pygame.draw.rect(surface, color, self.rect, border_radius=25)
-
-        # Отрисовка текста
-        font = pygame.font.SysFont("comicsansms", 30)  # Используем более интересный шрифт Comic Sans MS
-        shadow_font = pygame.font.SysFont("comicsansms", 30)  # Шрифт для тени
-        shadow_text = shadow_font.render(self.text, True, (0, 0, 0))  # Черная тень
-        text_surf = font.render(self.text, True, text_color)  # Основной текст
-
-        # Отрисовка тени
-        surface.blit(shadow_text, (self.rect.x + 3, self.rect.y + 3))  # Тень немного смещена
-
-        # Отрисовка основного текста
+        font = pygame.font.SysFont("comicsansms", 30)
+        shadow_font = pygame.font.SysFont("comicsansms", 30)
+        shadow_text = shadow_font.render(self.text, True, (0, 0, 0))
+        text_surf = font.render(self.text, True, text_color)
+        surface.blit(shadow_text, (self.rect.x + 3, self.rect.y + 3))
         text_rect = text_surf.get_rect(center=self.rect.center)
         surface.blit(text_surf, text_rect)
 
@@ -96,7 +90,7 @@ class Button:
             if self.rect.collidepoint(event.pos):
                 if self.action:
                     self.action()
-                self.is_active = not self.is_active  # Переключение статуса кнопки
+                self.is_active = not self.is_active
 
 # Управление радио
 player = None
@@ -120,15 +114,12 @@ def pause_radio():
 
 # Создаем градусы, которые бегают по экрану
 degree_pos = [WINDOW_WIDTH // 2 - 30, 50]
-degree_direction = [random.choice([-1, 1]), random.choice([-1, 1])]  # Направление движения градуса
+degree_direction = [random.choice([-1, 1]), random.choice([-1, 1])]
 
 def move_degrees():
     global degree_pos, degree_direction
-    # Изменение позиции градуса для "бега"
-    degree_pos[0] += degree_direction[0] * random.randint(1, 3)  # Замедлил движение
-    degree_pos[1] += degree_direction[1] * random.randint(1, 3)  # Замедлил движение
-
-    # Отражение от границ экрана
+    degree_pos[0] += degree_direction[0] * random.randint(1, 3)
+    degree_pos[1] += degree_direction[1] * random.randint(1, 3)
     if degree_pos[0] <= 10 or degree_pos[0] >= WINDOW_WIDTH - 30:
         degree_direction[0] = -degree_direction[0]
     if degree_pos[1] <= 10 or degree_pos[1] >= WINDOW_HEIGHT - 30:
@@ -136,13 +127,27 @@ def move_degrees():
 
 # Эквалайзер с меняющимися цветами
 def draw_eq(surface):
-    num_bars = 4  # Меньше полос
+    num_bars = 4
     bar_width = 40
     bar_height_max = 80
     for i in range(num_bars):
-        bar_height = random.randint(20, bar_height_max)  # Случайная высота для каждого бара
-        bar_color = random.choice([(0, 255, 255), (255, 105, 180), (144, 238, 144), (255, 255, 224)])  # Мягкие цвета
+        bar_height = random.randint(20, bar_height_max)
+        bar_color = random.choice([(0, 255, 255), (255, 105, 180), (144, 238, 144), (255, 255, 224)])
         pygame.draw.rect(surface, bar_color, pygame.Rect(i * 60 + 70, 20, bar_width, bar_height))
+
+# Загрузка шрифта для эмодзи
+emoji_font_path = pygame.font.match_font("Segoe UI Emoji")
+if not emoji_font_path:
+    print("Шрифт для эмодзи не найден. Проверьте установленные шрифты.")
+    sys.exit()
+emoji_font = pygame.font.Font(emoji_font_path, 100)
+emoji_positions = [(WINDOW_WIDTH // 2 - 150, 400), (WINDOW_WIDTH // 2 + 50, 400)]
+
+def draw_emojis(surface):
+    emojis = ["😎", "🤘"]
+    for emoji, position in zip(emojis, emoji_positions):
+        emoji_surface = emoji_font.render(emoji, True, (255, 255, 0))
+        surface.blit(emoji_surface, position)
 
 # Создаем кнопки
 buttons = [
@@ -155,33 +160,24 @@ buttons = [
 def main():
     running = True
     while running:
-        screen.fill(BG_COLOR)  # Применяем ярко выраженный темный фон для окна
-        screen.blit(BACKGROUND_IMAGE, (0, 0))  # Отображаем фоновое изображение
-
-        # Применяем эффект осветления фона
+        screen.fill(BG_COLOR)
+        screen.blit(BACKGROUND_IMAGE, (0, 0))
         apply_light_effect(screen)
-
-        # Рисуем сияющие звездочки
         draw_stars(screen)
-
-        # Перемещаем и рисуем градусы
         move_degrees()
         font = pygame.font.Font(None, 150)
-        color = random.choice([(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255)])  # Разноцветные градусы
-        text = font.render("°", True, color)  # Создание градуса с случайным цветом
-        screen.blit(text, (degree_pos[0], degree_pos[1]))  # Рисуем градус
-
-        # Рисуем эквалайзер
+        color = random.choice([(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255)])
+        text = font.render("°", True, color)
+        screen.blit(text, (degree_pos[0], degree_pos[1]))
         draw_eq(screen)
+        draw_emojis(screen)
 
-        # Обрабатываем события
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             for button in buttons:
                 button.check_click(event)
 
-        # Отрисовка кнопок
         for button in buttons:
             button.draw(screen)
 
