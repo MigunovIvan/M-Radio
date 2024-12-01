@@ -2,6 +2,7 @@ import pygame
 import random
 import sys
 import os
+import vlc  # Импортируем библиотеку vlc для воспроизведения радио
 
 # Инициализация Pygame
 pygame.init()

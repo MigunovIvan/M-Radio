@@ -4,17 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0821ab6-9dac-4184-8950-1993c3056e92" name="Changes" comment="Merge remote-tracking branch 'origin/master'">
-      <change afterPath="$PROJECT_DIR$/guitar_emoji.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rock_on_emoji.png" afterDir="false" />
+    <list default="true" id="d0821ab6-9dac-4184-8950-1993c3056e92" name="Changes" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;dist/Radio-M.exe">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Radio-M.py" beforeDir="false" afterPath="$PROJECT_DIR$/Radio-M.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Radio-M.spec" beforeDir="false" afterPath="$PROJECT_DIR$/Radio-M.spec" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/Radio-M/Analysis-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/Radio-M/Analysis-00.toc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/Radio-M/EXE-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/Radio-M/EXE-00.toc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/Radio-M/PKG-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/Radio-M/PKG-00.toc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/Radio-M/Radio-M.pkg" beforeDir="false" afterPath="$PROJECT_DIR$/build/Radio-M/Radio-M.pkg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Radio-M.exe" beforeDir="false" afterPath="$PROJECT_DIR$/NotoColorEmoji.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/Radio-M/warn-Radio-M.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/Radio-M/warn-Radio-M.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/Radio-M.exe" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +102,7 @@
       <workItem from="1732976692109" duration="812000" />
       <workItem from="1732978614735" duration="1148000" />
       <workItem from="1732982906171" duration="452000" />
-      <workItem from="1733074001224" duration="7905000" />
+      <workItem from="1733074001224" duration="8943000" />
     </task>
     <task id="LOCAL-00001" summary="Ivan Migunov">
       <option name="closed" value="true" />
@@ -170,7 +168,31 @@
       <option name="project" value="LOCAL" />
       <updated>1732979555987</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Merge remote-tracking branch 'origin/master'">
+      <option name="closed" value="true" />
+      <created>1733082243279</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1733082243279</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;dist/Radio-M.exe">
+      <option name="closed" value="true" />
+      <created>1733082320497</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1733082320497</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;dist/Radio-M.exe">
+      <option name="closed" value="true" />
+      <created>1733082352669</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1733082352669</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -179,7 +201,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Ivan Migunov" />
     <MESSAGE value="Merge remote-tracking branch 'origin/master'" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/master'" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;dist/Radio-M.exe" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;dist/Radio-M.exe" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Play$Radio_M.coverage" NAME="Radio-M Coverage Results" MODIFIED="1733081396727" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
