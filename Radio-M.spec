@@ -5,7 +5,7 @@ a = Analysis(
     ['Radio-M.py'],
     pathex=[],
     binaries=[],
-    datas=[('WL.jpg', '.'), ('guitar_emoji.png', '.'), ('rock_on_emoji.png', '.'), ('R.ico', '.')],
+    datas=[('WL.jpg', '.'), ('guitar_emoji.png', '.'), ('rock_on_emoji.png', '.'), ('R.ico', '.'), ('custom_font.ttf', '.')],
     hiddenimports=['vlc'],
     hookspath=[],
     hooksconfig={},

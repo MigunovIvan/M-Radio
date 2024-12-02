@@ -21,6 +21,7 @@ RADIO_URL = "https://cast2.my-control-panel.com/proxy/vladas/stream"
 # Иконка для окна
 ICON_PATH = "R.ico"  # Иконка для окна (поменяйте на нужный путь к .ico файлу)
 
+
 # Функция для получения пути к файлам
 def resource_path(relative_path):
     """Определяет путь к ресурсам в зависимости от того, с какого места выполняется скрипт."""
@@ -31,6 +32,7 @@ def resource_path(relative_path):
         # Для режима разработки (обычный путь)
         base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
+
 
 # Установка иконки для окна
 pygame.display.set_icon(pygame.image.load(resource_path(ICON_PATH)))
@@ -48,6 +50,43 @@ rock_on_emoji = pygame.image.load(resource_path("rock_on_emoji.png"))
 guitar_emoji = pygame.transform.scale(guitar_emoji, (50, 50))
 rock_on_emoji = pygame.transform.scale(rock_on_emoji, (50, 50))
 
+# Координаты для смайликов
+emoji_positions = [
+    [random.randint(0, WINDOW_WIDTH - 50), random.randint(0, WINDOW_HEIGHT - 50)],
+    [random.randint(0, WINDOW_WIDTH - 50), random.randint(0, WINDOW_HEIGHT - 50)]
+]
+emoji_directions = [
+    [random.choice([-1, 1]), random.choice([-1, 1])],
+    [random.choice([-1, 1]), random.choice([-1, 1])]
+]
+
+
+# Функция для движения смайликов
+def move_emojis():
+    for i in range(len(emoji_positions)):
+        emoji_positions[i][0] += emoji_directions[i][0] * 0.3  # Уменьшенная скорость
+        emoji_positions[i][1] += emoji_directions[i][1] * 0.3
+        if emoji_positions[i][0] <= 0 or emoji_positions[i][0] >= WINDOW_WIDTH - 50:
+            emoji_directions[i][0] = -emoji_directions[i][0]
+        if emoji_positions[i][1] <= 0 or emoji_positions[i][1] >= WINDOW_HEIGHT - 50:
+            emoji_directions[i][1] = -emoji_directions[i][1]
+
+
+# Градусы, которые бегают по экрану
+degree_pos = [WINDOW_WIDTH // 2 - 30, 50]
+degree_direction = [random.choice([-1, 1]), random.choice([-1, 1])]
+
+
+def move_degrees():
+    global degree_pos, degree_direction
+    degree_pos[0] += degree_direction[0] * 0.1  # Скорость уменьшена до 0.1
+    degree_pos[1] += degree_direction[1] * 0.1
+    if degree_pos[0] <= 10 or degree_pos[0] >= WINDOW_WIDTH - 30:
+        degree_direction[0] = -degree_direction[0]
+    if degree_pos[1] <= 10 or degree_pos[1] >= WINDOW_HEIGHT - 30:
+        degree_direction[1] = -degree_direction[1]
+
+
 # Эффект осветления фона
 def apply_light_effect(surface):
     num_spots = random.randint(1, 5)  # Количество пятен
@@ -56,86 +95,6 @@ def apply_light_effect(surface):
         spot_radius = random.randint(50, 150)
         spot_position = (random.randint(0, WINDOW_WIDTH), random.randint(0, WINDOW_HEIGHT))
         pygame.draw.circle(surface, spot_color, spot_position, spot_radius, width=0)
-
-# Эффект сияющих звездочек
-def draw_stars(surface):
-    for _ in range(50):  # Рисуем 50 случайных звездочек
-        star_size = random.randint(2, 5)
-        x = random.randint(0, WINDOW_WIDTH)
-        y = random.randint(0, WINDOW_HEIGHT)
-        color = (255, random.randint(200, 255), random.randint(200, 255))  # Мягкие светлые цвета
-        pygame.draw.circle(surface, color, (x, y), star_size)
-
-# Класс кнопки
-class Button:
-    def __init__(self, text, x, y, width, height, action=None):
-        self.text = text
-        self.rect = pygame.Rect(x, y, width, height)
-        self.color = BTN_COLOR
-        self.hover_color = BTN_HOVER_COLOR
-        self.active_color = ACTIVE_COLOR
-        self.text_color = TEXT_COLOR
-        self.action = action
-        self.is_active = False
-
-    def draw(self, surface):
-        if self.rect.collidepoint(pygame.mouse.get_pos()):
-            color = self.hover_color
-            text_color = self.active_color
-        else:
-            color = self.color
-            text_color = self.text_color
-
-        pygame.draw.rect(surface, color, self.rect, border_radius=25)
-        font = pygame.font.SysFont("comicsansms", 30)
-        shadow_font = pygame.font.SysFont("comicsansms", 30)
-        shadow_text = shadow_font.render(self.text, True, (0, 0, 0))
-        text_surf = font.render(self.text, True, text_color)
-        surface.blit(shadow_text, (self.rect.x + 3, self.rect.y + 3))
-        text_rect = text_surf.get_rect(center=self.rect.center)
-        surface.blit(text_surf, text_rect)
-
-    def check_click(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            if self.rect.collidepoint(event.pos):
-                if self.action:
-                    self.action()
-                self.is_active = not self.is_active
-
-
-# Управление радио
-player = None
-
-def play_radio():
-    global player
-    if not player:
-        player = vlc.MediaPlayer(RADIO_URL)
-    player.play()
-
-def stop_radio():
-    global player
-    if player:
-        player.stop()
-        player = None
-
-def pause_radio():
-    global player
-    if player:
-        player.pause()
-
-
-# Градусы, которые бегают по экрану
-degree_pos = [WINDOW_WIDTH // 2 - 30, 50]
-degree_direction = [random.choice([-1, 1]), random.choice([-1, 1])]
-
-def move_degrees():
-    global degree_pos, degree_direction
-    degree_pos[0] += degree_direction[0] * random.randint(1, 3)
-    degree_pos[1] += degree_direction[1] * random.randint(1, 3)
-    if degree_pos[0] <= 10 or degree_pos[0] >= WINDOW_WIDTH - 30:
-        degree_direction[0] = -degree_direction[0]
-    if degree_pos[1] <= 10 or degree_pos[1] >= WINDOW_HEIGHT - 30:
-        degree_direction[1] = -degree_direction[1]
 
 
 # Эквалайзер
@@ -154,84 +113,111 @@ def draw_equalizer(surface):
 
 # Переливающийся светопушечный шарик с RGB контуром и прозрачным центром
 def draw_glowing_ball(surface, pos, size):
-    # Создаем поверхность с прозрачным фоном
     ball_surface = pygame.Surface((size * 2, size * 2), pygame.SRCALPHA)
     ball_surface.fill((0, 0, 0, 0))  # Прозрачный фон
 
-    # Эффект контуров с переливанием цветов
-    for i in range(10, 0, -1):  # Уменьшаем размер ореола с каждым кругом
+    for i in range(10, 0, -1):
         color = (
             random.randint(100, 255),
             random.randint(100, 255),
             random.randint(100, 255)
         )
-        pygame.draw.circle(ball_surface, color, (size, size), size + i, width=3)  # Контур с растягивающимся ореолом
+        pygame.draw.circle(ball_surface, color, (size, size), size + i, width=3)
 
-    # Рисуем саму поверхность на экране
     surface.blit(ball_surface, (pos[0] - size, pos[1] - size))
 
 
-# Отображение изображений смайликов
-def draw_rock_n_roll_emojis(surface):
-    # Отображаем смайлик "гитара" в левом верхнем углу
-    guitar_rect = guitar_emoji.get_rect(topleft=(50, 20))
-    surface.blit(guitar_emoji, guitar_rect)
+# Загрузка кастомного шрифта
+FONT_PATH = resource_path("custom_font.ttf")  # Укажите путь к вашему шрифту
+custom_font = pygame.font.Font(FONT_PATH, 24)
 
-    # Отображаем смайлик "рок" в правом верхнем углу
-    rock_rect = rock_on_emoji.get_rect(topright=(WINDOW_WIDTH - 50, 20))
-    surface.blit(rock_on_emoji, rock_rect)
+
+# Рисуем текст с кастомным шрифтом
+def draw_button_text(surface, text, x, y, color):
+    text_surface = custom_font.render(text, True, color)
+    surface.blit(text_surface, (x, y))
+
+
+# Функция для рисования кнопок с округлыми углами
+def draw_button(surface, text, x, y, width, height, color, hover_color, text_color):
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+    if x < mouse_x < x + width and y < mouse_y < y + height:
+        pygame.draw.rect(surface, hover_color, (x, y, width, height), border_radius=15)
+    else:
+        pygame.draw.rect(surface, color, (x, y, width, height), border_radius=15)
+
+    draw_button_text(surface, text, x + (width - custom_font.size(text)[0]) // 2, y + (height - 24) // 2, text_color)
+
+
+# Функция для обработки нажатий на кнопки
+def handle_button_click(x, y, width, height, event, action):
+    if x < event.pos[0] < x + width and y < event.pos[1] < y + height:
+        action()
+
+
+# Функция для воспроизведения радио
+def play_radio():
+    global player
+    player = vlc.MediaPlayer(RADIO_URL)
+    player.play()
+
+
+# Функция для остановки радио
+def stop_radio():
+    global player
+    player.stop()
 
 
 # Главная функция игры
 def main():
-    global player
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     pygame.display.set_caption("Radio Player")
 
-    # Загрузка кнопок
-    play_button = Button("Play", 50, WINDOW_HEIGHT - 100, 150, 50, play_radio)
-    stop_button = Button("Stop", 210, WINDOW_HEIGHT - 100, 150, 50, stop_radio)
-    pause_button = Button("Pause", 370, WINDOW_HEIGHT - 100, 150, 50, pause_radio)
-
+    global player
+    player = None
     running = True
     while running:
         screen.fill(BG_COLOR)
         screen.blit(BACKGROUND_IMAGE, (0, 0))
 
-        # Применяем эффект осветления
         apply_light_effect(screen)
-
-        # Рисуем звезды
-        draw_stars(screen)
-
-        # Рисуем эквалайзер
         draw_equalizer(screen)
-
-        # Рисуем смайлики
-        draw_rock_n_roll_emojis(screen)
-
-        # Переливающийся шарик
         draw_glowing_ball(screen, (degree_pos[0], degree_pos[1]), 40)
 
-        # Отображаем кнопки
-        play_button.draw(screen)
-        stop_button.draw(screen)
-        pause_button.draw(screen)
+        # Рисуем смайлики
+        screen.blit(guitar_emoji, emoji_positions[0])
+        screen.blit(rock_on_emoji, emoji_positions[1])
 
+        move_emojis()
+        move_degrees()
+
+        # Центрирование кнопок
+        button_width, button_height = 150, 50
+        button_x1 = (WINDOW_WIDTH - button_width) // 2
+        button_y1 = 350
+        button_x2 = (WINDOW_WIDTH - button_width) // 2
+        button_y2 = 420
+
+        # Рисуем кнопки
+        draw_button(screen, "Play Radio", button_x1, button_y1, button_width, button_height, BTN_COLOR, BTN_HOVER_COLOR,
+                    TEXT_COLOR)
+        draw_button(screen, "Stop Radio", button_x2, button_y2, button_width, button_height, BTN_COLOR, BTN_HOVER_COLOR,
+                    TEXT_COLOR)
+
+        # Обработка событий
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            play_button.check_click(event)
-            stop_button.check_click(event)
-            pause_button.check_click(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                handle_button_click(button_x1, button_y1, button_width, button_height, event, play_radio)
+                handle_button_click(button_x2, button_y2, button_width, button_height, event, stop_radio)
 
-        # Перемещаем градусы
-        move_degrees()
-
-        pygame.display.update()
+        pygame.display.flip()
 
     pygame.quit()
+    sys.exit()
 
 
+# Запуск программы
 if __name__ == "__main__":
     main()
