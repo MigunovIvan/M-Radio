@@ -57,7 +57,7 @@ emoji_positions = [
 ]
 emoji_directions = [
     [random.choice([-1, 1]), random.choice([-1, 1])],
-    [random.choice([-1, 1]), random.choice([-1, 1])]
+    [random.choice([-1, 1]), random.choice([-1, 1])],
 ]
 
 
@@ -87,28 +87,20 @@ def move_degrees():
         degree_direction[1] = -degree_direction[1]
 
 
-# Эффект осветления фона
-def apply_light_effect(surface):
-    num_spots = random.randint(1, 5)  # Количество пятен
-    for _ in range(num_spots):
-        spot_color = (random.randint(180, 255), random.randint(180, 255), random.randint(180, 255))  # Светлый цвет
-        spot_radius = random.randint(50, 150)
-        spot_position = (random.randint(0, WINDOW_WIDTH), random.randint(0, WINDOW_HEIGHT))
-        pygame.draw.circle(surface, spot_color, spot_position, spot_radius, width=0)
-
-
 # Эквалайзер
 def draw_equalizer(surface):
-    num_bars = 10
-    bar_width = 15
-    spacing = 10
-    start_x = (WINDOW_WIDTH - (num_bars * (bar_width + spacing) - spacing)) // 2
-    start_y = WINDOW_HEIGHT - 100
+    bar_width = 10
+    bar_spacing = 5
+    bar_height = 100  # Высота бара эквалайзера
 
-    for i in range(num_bars):
-        height = random.randint(10, 100)
-        color = (random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
-        pygame.draw.rect(surface, color, (start_x + i * (bar_width + spacing), start_y - height, bar_width, height))
+    for i in range(10):  # Количество полос эквалайзера
+        # Случайная высота для каждого бара
+        bar_height_random = random.randint(30, bar_height)
+        x = 50 + i * (bar_width + bar_spacing)  # Позиция по X
+        y = WINDOW_HEIGHT - bar_height_random  # Позиция по Y (внизу экрана)
+
+        # Рисуем полоску эквалайзера
+        pygame.draw.rect(surface, (255, 255, 255), (x, y, bar_width, bar_height_random))
 
 
 # Переливающийся светопушечный шарик с RGB контуром и прозрачным центром
@@ -180,7 +172,9 @@ def main():
         screen.fill(BG_COLOR)
         screen.blit(BACKGROUND_IMAGE, (0, 0))
 
-        apply_light_effect(screen)
+        # Убираем эффект осветления фона
+        # apply_light_effect(screen)  # Этот вызов был убран
+
         draw_equalizer(screen)
         draw_glowing_ball(screen, (degree_pos[0], degree_pos[1]), 40)
 
@@ -208,16 +202,18 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                handle_button_click(button_x1, button_y1, button_width, button_height, event, play_radio)
-                handle_button_click(button_x2, button_y2, button_width, button_height, event, stop_radio)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if button_x1 < event.pos[0] < button_x1 + button_width and button_y1 < event.pos[
+                    1] < button_y1 + button_height:
+                    play_radio()
+                if button_x2 < event.pos[0] < button_x2 + button_width and button_y2 < event.pos[
+                    1] < button_y2 + button_height:
+                    stop_radio()
 
         pygame.display.flip()
 
     pygame.quit()
-    sys.exit()
 
 
-# Запуск программы
 if __name__ == "__main__":
     main()
