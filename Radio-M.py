@@ -2,158 +2,238 @@ import pygame
 import random
 import sys
 import os
-import vlc  # Импортируем библиотеку vlc для воспроизведения радио
+import vlc
+import shutil
 
-# Инициализация Pygame
-pygame.init()
 
-# Размеры окна и ресурсы
-WINDOW_WIDTH, WINDOW_HEIGHT = 600, 500
-BG_COLOR = (20, 20, 20)  # Темный фон
-BTN_COLOR = (50, 50, 50)  # Цвет кнопок (металлик)
-BTN_HOVER_COLOR = (80, 80, 80)  # Цвет кнопок при наведении
-TEXT_COLOR = (255, 255, 255)  # Цвет текста на кнопках
-
-# Радио URL
-RADIO_URL = "https://cast2.my-control-panel.com/proxy/vladas/stream"
-
-# Иконка для окна
-ICON_PATH = "R.ico"  # Иконка для окна (укажите путь)
-
-# Функция для получения пути к файлам
+# Функция для получения корректных путей к ресурсам
 def resource_path(relative_path):
-    """Определяет путь к ресурсам в зависимости от того, с какого места выполняется скрипт."""
     try:
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
 
-# Установка иконки для окна
-pygame.display.set_icon(pygame.image.load(resource_path(ICON_PATH)))
 
-# Загрузка фона
-BACKGROUND_IMAGE_PATH = resource_path("WL.jpg")
-BACKGROUND_IMAGE = pygame.image.load(BACKGROUND_IMAGE_PATH)
-BACKGROUND_IMAGE = pygame.transform.scale(BACKGROUND_IMAGE, (WINDOW_WIDTH, WINDOW_HEIGHT))
-
-# Загрузка изображений смайликов
-guitar_emoji = pygame.image.load(resource_path("guitar_emoji.png"))
-rock_on_emoji = pygame.image.load(resource_path("rock_on_emoji.png"))
-guitar_emoji = pygame.transform.scale(guitar_emoji, (50, 50))
-rock_on_emoji = pygame.transform.scale(rock_on_emoji, (50, 50))
-
-# Координаты и направления для смайликов
-emoji_positions = [
-    [random.randint(0, WINDOW_WIDTH - 50), random.randint(0, WINDOW_HEIGHT - 50)],
-    [random.randint(0, WINDOW_WIDTH - 50), random.randint(0, WINDOW_HEIGHT - 50)]
-]
-emoji_directions = [
-    [random.choice([-1, 1]), random.choice([-1, 1])],
-    [random.choice([-1, 1]), random.choice([-1, 1])]
+# Проверка и копирование необходимых файлов
+required_files = [
+    "WL.jpg",
+    "guitar_emoji.png",
+    "rock_on_emoji.png",
+    "R.ico",
+    "custom_font.ttf",
+    "button_click.wav"
 ]
 
-# Функция для движения смайликов
-def move_emojis():
-    for i in range(len(emoji_positions)):
-        emoji_positions[i][0] += emoji_directions[i][0] * 0.3
-        emoji_positions[i][1] += emoji_directions[i][1] * 0.3
-        if emoji_positions[i][0] <= 0 or emoji_positions[i][0] >= WINDOW_WIDTH - 50:
-            emoji_directions[i][0] = -emoji_directions[i][0]
-        if emoji_positions[i][1] <= 0 or emoji_positions[i][1] >= WINDOW_HEIGHT - 50:
-            emoji_directions[i][1] = -emoji_directions[i][1]
+for file in required_files:
+    src = resource_path(file)
+    dst = os.path.join(os.path.dirname(sys.argv[0]), file)
+    if not os.path.exists(src):
+        if os.path.exists(file):
+            shutil.copy(file, os.path.dirname(sys.argv[0]))
+        else:
+            raise FileNotFoundError(f"Missing required file: {file}")
 
-# Звёзды
-stars = [{"x": random.randint(0, WINDOW_WIDTH), "y": random.randint(0, WINDOW_HEIGHT), "radius": random.randint(1, 3)} for _ in range(100)]
+# Инициализация Pygame
+pygame.init()
+pygame.mixer.init()
 
-# Эквалайзер
-bar_width = 10
-bars = [{"x": i * (bar_width + 2), "height": random.randint(10, 100), "color": (255, 255, 255)} for i in range(WINDOW_WIDTH // (bar_width + 2))]
+# Конфигурация окна
+WINDOW_SIZE = (600, 500)
+BG_COLOR = (20, 20, 20)
 
-# Плавное изменение эквалайзера
-def update_bars():
-    for bar in bars:
-        target_height = random.randint(10, 150)
-        if bar["height"] < target_height:
-            bar["height"] += 5
-        elif bar["height"] > target_height:
-            bar["height"] -= 5
-        bar["color"] = (random.randint(100, 255), random.randint(100, 255), random.randint(100, 255))
+# Цветовая схема кнопок
+COLORS = {
+    'play': {'normal': (50, 200, 50), 'hover': (30, 170, 30)},
+    'stop': {'normal': (200, 50, 50), 'hover': (170, 30, 30)},
+    'fx': {'normal': (240, 200, 0), 'hover': (200, 160, 0)},
+    'default': {'normal': (50, 150, 200), 'hover': (30, 120, 170)}
+}
 
-def draw_equalizer(surface):
-    for bar in bars:
-        pygame.draw.rect(surface, bar["color"], (bar["x"], WINDOW_HEIGHT - bar["height"], bar_width, bar["height"]))
+# Настройки радио
+RADIO_URL = "https://cast2.my-control-panel.com/proxy/vladas/stream"
 
-# Кнопки
-FONT_PATH = resource_path("custom_font.ttf")
-custom_font = pygame.font.Font(FONT_PATH, 24)
 
-def draw_button_text(surface, text, x, y, color):
-    text_surface = custom_font.render(text, True, color)
-    surface.blit(text_surface, (x, y))
+class RadioPlayer:
+    def __init__(self):
+        self.player = None
+        self.volume = 100
+        self.is_playing = False
+        self.eq = vlc.AudioEqualizer()
 
-def draw_button(surface, text, x, y, width, height, color, hover_color, text_color):
-    mouse_x, mouse_y = pygame.mouse.get_pos()
-    if x < mouse_x < x + width and y < mouse_y < y + height:
-        pygame.draw.rect(surface, hover_color, (x, y, width, height), border_radius=15)
-    else:
-        pygame.draw.rect(surface, color, (x, y, width, height), border_radius=15)
-    draw_button_text(surface, text, x + (width - custom_font.size(text)[0]) // 2, y + (height - 24) // 2, text_color)
+    def play(self):
+        self.stop()
+        try:
+            self.player = vlc.MediaPlayer(RADIO_URL)
+            self.apply_settings()
+            self.player.play()
+            self.is_playing = True
+        except Exception as e:
+            print(f"Ошибка воспроизведения: {e}")
 
-def play_radio():
-    global player
-    player = vlc.MediaPlayer(RADIO_URL)
-    player.play()
+    def stop(self):
+        if self.player:
+            try:
+                self.player.stop()
+                self.is_playing = False
+            except Exception as e:
+                print(f"Ошибка остановки: {e}")
 
-def stop_radio():
-    global player
-    if player:
-        player.stop()
+    def apply_settings(self):
+        if self.player:
+            self.player.audio_set_volume(self.volume)
+            self.player.set_equalizer(self.eq)
 
-# Главная функция
-def main():
-    screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-    pygame.display.set_caption("Radio Player")
+    def set_volume(self, delta):
+        self.volume = max(0, min(150, self.volume + delta))
+        self.apply_settings()
 
-    global player
-    player = None
-    running = True
+    def boost_volume(self):
+        self.volume = min(150, int(self.volume * 1.2))
+        self.eq.set_preamp(20.0)
+        self.apply_settings()
 
-    button_width, button_height = 150, 50
-    button_x1 = (WINDOW_WIDTH - button_width) // 2
-    button_y1 = 350
-    button_x2 = (WINDOW_WIDTH - button_width) // 2
-    button_y2 = 420
 
-    while running:
-        screen.fill(BG_COLOR)
-        screen.blit(BACKGROUND_IMAGE, (0, 0))
+class GUI:
+    def __init__(self):
+        self.screen = pygame.display.set_mode(WINDOW_SIZE)
+        pygame.display.set_caption("Radio Player")
+        self.clock = pygame.time.Clock()
+        self.radio = RadioPlayer()
 
-        for star in stars:
-            pygame.draw.circle(screen, (255, 255, 100), (star["x"], star["y"]), star["radius"])
+        # Загрузка ресурсов
+        self.font = pygame.font.Font(resource_path("custom_font.ttf"), 16)
+        self.bg_image = pygame.image.load(resource_path("WL.jpg"))
+        self.bg_image = pygame.transform.scale(self.bg_image, WINDOW_SIZE)
+        self.button_sound = pygame.mixer.Sound(resource_path("button_click.wav"))
 
-        update_bars()
-        draw_equalizer(screen)
+        # Настройка анимированных элементов
+        self.load_emojis()
+        self.setup_emojis()
+        self.init_equalizer()
 
-        screen.blit(guitar_emoji, emoji_positions[0])
-        screen.blit(rock_on_emoji, emoji_positions[1])
-        move_emojis()
+    def load_emojis(self):
+        self.guitar_emoji = pygame.image.load(resource_path("guitar_emoji.png"))
+        self.rock_on_emoji = pygame.image.load(resource_path("rock_on_emoji.png"))
+        self.guitar_emoji = pygame.transform.scale(self.guitar_emoji, (60, 60))
+        self.rock_on_emoji = pygame.transform.scale(self.rock_on_emoji, (60, 60))
 
-        draw_button(screen, "Play Radio", button_x1, button_y1, button_width, button_height, BTN_COLOR, BTN_HOVER_COLOR, TEXT_COLOR)
-        draw_button(screen, "Stop Radio", button_x2, button_y2, button_width, button_height, BTN_COLOR, BTN_HOVER_COLOR, TEXT_COLOR)
+    def setup_emojis(self):
+        self.emoji_positions = [
+            [random.uniform(0, WINDOW_SIZE[0] - 60), random.uniform(0, WINDOW_SIZE[1] - 60)],
+            [random.uniform(0, WINDOW_SIZE[0] - 60), random.uniform(0, WINDOW_SIZE[1] - 60)]
+        ]
+        self.emoji_speeds = [
+            [random.uniform(-0.8, 0.8), random.uniform(-0.8, 0.8)],
+            [random.uniform(-0.8, 0.8), random.uniform(-0.8, 0.8)]
+        ]
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if button_x1 < event.pos[0] < button_x1 + button_width and button_y1 < event.pos[1] < button_y1 + button_height:
-                    play_radio()
-                if button_x2 < event.pos[0] < button_x2 + button_width and button_y2 < event.pos[1] < button_y2 + button_height:
-                    stop_radio()
+    def init_equalizer(self):
+        self.bar_width = 8
+        self.bar_gap = 2
+        self.bars = [random.randint(10, 40) for _ in range(25)]
+        self.eq_area = (50, 330, 500, 60)
+
+    def move_emojis(self):
+        for i in range(2):
+            self.emoji_positions[i][0] += self.emoji_speeds[i][0]
+            self.emoji_positions[i][1] += self.emoji_speeds[i][1]
+
+            # Обработка столкновений с границами
+            if self.emoji_positions[i][0] <= 0 or self.emoji_positions[i][0] >= WINDOW_SIZE[0] - 60:
+                self.emoji_speeds[i][0] *= -1
+            if self.emoji_positions[i][1] <= 0 or self.emoji_positions[i][1] >= WINDOW_SIZE[1] - 60:
+                self.emoji_speeds[i][1] *= -1
+
+    def draw_equalizer(self):
+        base_x, base_y, area_width, area_height = self.eq_area
+        max_height = area_height - 10
+
+        for i, height in enumerate(self.bars):
+            bar_height = min(height, max_height)
+            x = base_x + i * (self.bar_width + self.bar_gap)
+            y = base_y + (max_height - bar_height)
+
+            pygame.draw.rect(
+                self.screen,
+                (random.randint(100, 255), random.randint(100, 255), random.randint(100, 255)),
+                (x, y, self.bar_width, bar_height),
+                border_radius=2
+            )
+
+        self.bars = [min(max_height, h + random.randint(-3, 3)) for h in self.bars]
+
+    def draw_button(self, text, position, btn_type='default'):
+        button_rect = pygame.Rect(position[0], position[1], 90, 40)
+        mouse_pos = pygame.mouse.get_pos()
+        colors = COLORS.get(btn_type, COLORS['default'])
+        color = colors['hover'] if button_rect.collidepoint(mouse_pos) else colors['normal']
+
+        # Определение цвета текста
+        text_color = (255, 255, 255)
+        if btn_type == 'fx':
+            text_color = (30, 30, 30)
+
+        pygame.draw.rect(self.screen, color, button_rect, border_radius=15)
+        text_surf = self.font.render(text, True, text_color)
+        text_rect = text_surf.get_rect(center=button_rect.center)
+        self.screen.blit(text_surf, text_rect)
+        return button_rect
+
+    def handle_events(self):
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    for button in self.buttons:
+                        if button.collidepoint(event.pos):
+                            self.button_sound.play()
+                            self.handle_button_click(button)
+
+            self.update_display()
+            self.clock.tick(60)
+        pygame.quit()
+
+    def update_display(self):
+        self.screen.blit(self.bg_image, (0, 0))
+        self.draw_equalizer()
+        self.move_emojis()
+        self.screen.blit(self.guitar_emoji, self.emoji_positions[0])
+        self.screen.blit(self.rock_on_emoji, self.emoji_positions[1])
+
+        # Отрисовка кнопок
+        self.buttons = [
+            self.draw_button("PLAY", (60, 340), 'play'),
+            self.draw_button("STOP", (160, 340), 'stop'),
+            self.draw_button("FX 120%", (260, 340), 'fx'),
+            self.draw_button("VOL+", (360, 340), 'default'),
+            self.draw_button("VOL-", (460, 340), 'default')
+        ]
+
+        # Статусная строка
+        status_text = f"ГРОМКОСТЬ: {self.radio.volume}% | СТАТУС: {'ВОСПРОИЗВЕДЕНИЕ' if self.radio.is_playing else 'ПАУЗА'}"
+        status_color = (0, 200, 0) if self.radio.is_playing else (200, 0, 0)
+        status_surf = self.font.render(status_text, True, status_color)
+        self.screen.blit(status_surf, (30, 460))
 
         pygame.display.flip()
 
-    pygame.quit()
+    def handle_button_click(self, button_rect):
+        x_pos = button_rect.x
+        if x_pos == 60:
+            self.radio.play()
+        elif x_pos == 160:
+            self.radio.stop()
+        elif x_pos == 260:
+            self.radio.boost_volume()
+        elif x_pos == 360:
+            self.radio.set_volume(10)
+        elif x_pos == 460:
+            self.radio.set_volume(-10)
+
 
 if __name__ == "__main__":
-    main()
+    app = GUI()
+    app.handle_events()
