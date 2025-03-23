@@ -5,17 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0821ab6-9dac-4184-8950-1993c3056e92" name="Changes" comment="Merge remote-tracking branch 'origin/master'">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_01_12_2024_21_44_[Changes]/NotoColorEmoji.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_01_12_2024_21_44_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_01_12_2024_21_44__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/R.ico" beforeDir="false" afterPath="$PROJECT_DIR$/R.ico" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Radio-M.py" beforeDir="false" afterPath="$PROJECT_DIR$/Radio-M.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Radio-M.spec" beforeDir="false" afterPath="$PROJECT_DIR$/Radio-M.spec" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/Radio-M/Analysis-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/Radio-M/Analysis-00.toc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/Radio-M/EXE-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/Radio-M/EXE-00.toc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/Radio-M/PKG-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/Radio-M/PKG-00.toc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Radio-M/PYZ-00.pyz" beforeDir="false" afterPath="$PROJECT_DIR$/build/Radio-M/PYZ-00.pyz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Radio-M/PYZ-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/Radio-M/PYZ-00.toc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/Radio-M/Radio-M.pkg" beforeDir="false" afterPath="$PROJECT_DIR$/build/Radio-M/Radio-M.pkg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Radio-M/warn-Radio-M.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/Radio-M/warn-Radio-M.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Radio-M/xref-Radio-M.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/Radio-M/xref-Radio-M.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/Radio-M.exe" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,7 +42,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/MigunovIvan/M-Radio.git&quot;,
-    &quot;accountId&quot;: &quot;dd85893e-412f-451f-8356-7efac0bf25e1&quot;
+    &quot;accountId&quot;: &quot;ebbbfc91-118b-4761-a300-63f7bfa33bf8&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -57,31 +56,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.Radio-M.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/it000105/PycharmProjects/Play&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.Radio-M.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "<unknown>",
+    "last_opened_file_path": "C:/Users/Иван/Desktop/Play",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Иван\Desktop\Play" />
       <recent name="C:\Users\it000105\PycharmProjects\Play" />
     </key>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-PY-241.19416.19" />
-        <option value="bundled-python-sdk-337b0a7a993a-2767605e8bc2-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.19416.19" />
+        <option value="bundled-python-sdk-4f4e415b4190-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.26053.29" />
       </set>
     </attachedChunks>
   </component>
@@ -111,7 +111,12 @@
       <workItem from="1733288307673" duration="6083000" />
       <workItem from="1733296544908" duration="1791000" />
       <workItem from="1733300434687" duration="33000" />
-      <workItem from="1733374391452" duration="9988000" />
+      <workItem from="1733374391452" duration="14521000" />
+      <workItem from="1740471747690" duration="32000" />
+      <workItem from="1741867109146" duration="236000" />
+      <workItem from="1741867795366" duration="514000" />
+      <workItem from="1742647396792" duration="678000" />
+      <workItem from="1742648104046" duration="962000" />
     </task>
     <task id="LOCAL-00001" summary="Ivan Migunov">
       <option name="closed" value="true" />
@@ -241,7 +246,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733297827911</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Merge remote-tracking branch 'origin/master'">
+      <option name="closed" value="true" />
+      <created>1733405126020</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1733405126020</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -254,6 +267,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/master'" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Play$Radio_M.coverage" NAME="Radio-M Coverage Results" MODIFIED="1733403506506" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Play$Radio_M.coverage" NAME="Radio-M Coverage Results" MODIFIED="1742648245634" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
